@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <title>Snippet App</title>
+  </head>
+  <body>
+    <div id="app"> 
+      <p>{{ message }}</p> 
+      <p>{{ message2 }}</p>
+      <button v-on:click="changeMsg">Change</button>
+      <ul>
+        <li v-for="list in lists">{{ list.title }}</li>
+      </ul>
+      <button v-on:click="listSnippet">listSnippet</button>
+      <div>
+        <input v-model="title" placeholder="title"> <!-- 説明 2.23 -->
+        <input v-model="language" placeholder="language">
+        <input v-model="contents" placeholder="contents">
+      </div>
+      <button v-on:click="postSnippet">postSnippet</button>
+    </div>
+    <script>
+      new Vue({ 
+        el: "#app", 
+        data() { 
+          return {
+            message: "Hello Vue!",
+            message2: 'Hoge',
+            lists: [{title: 'title1'}, {title: 'title2'}],
+            title: 'new title',
+            language: 'Ruby',
+            contents: 'contents'
+          };
+        },
+        mounted () {
+          this.setMsg();
+        },
+        methods: {
+          setMsg: function () {
+            this.message = 'Set Message';
+          },
+          changeMsg: function() {
+            this.message = 'Changed Message'
+            axios.get('/snippets.json')
+            .then(response => (
+                this.message2 = response.data[0]['title']
+              )
+            )
+          },
+          listSnippet: function() {
+            axios.get('/snippets.json')
+              .then(response => (
+                this.lists = response.data
+              )
+            );
+          },
+          postSnippet: function() {
+            axios.post('/snippets.json', {title: 'new title', language: 'Ruby', contents: 'contents'}) // 説明 2.21
+              .then(response => (
+                this.listSnippet()
+              )
+            );
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
