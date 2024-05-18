@@ -7,3 +7,8 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+
+20.times do |i|
+	Snippet.create(title:"#{i+1}個目のタイトル",language:"ruby",contents:"#{i}個目のタイトル")
+end
