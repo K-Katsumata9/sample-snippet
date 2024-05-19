@@ -10,5 +10,5 @@
 
 
 20.times do |i|
-	Snippet.create(title:"#{i+1}個目のタイトル",language:"ruby",contents:"#{i}個目のタイトル")
+	Snippet.create(title:"#{i+1}個目のタイトル",language:"ruby",contents:"#{i+1}個目のタイトル")
 end
